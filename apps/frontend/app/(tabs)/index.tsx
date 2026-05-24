@@ -18,6 +18,7 @@ import {
   type MenuSearchFiltersState,
 } from "@/components/menu-search-filters";
 import LoadingScreen from "@/components/loading-screen";
+import { BrandHeader } from "@/components/ui/brand-header";
 import { CategoryChip } from "@/components/ui/category-chip";
 import type { PizzaListItem } from "@/components/ui/pizza-card";
 import { PizzaCard } from "@/components/ui/pizza-card";
@@ -128,6 +129,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.screen}>
         <View style={styles.header}>
+          <BrandHeader />
           <SearchBar
             value={search}
             onChangeText={setSearch}
@@ -204,10 +206,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 8,
   },
-  chipsRow: { maxHeight: 52 },
+  /** Cross-axis aligns chips when row has a bounded height (web + RN). */
+  chipsRow: { maxHeight: 56 },
   chipsInner: {
+    alignItems: "center",
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingVertical: 8,
     gap: 10,
   },
   grid: {

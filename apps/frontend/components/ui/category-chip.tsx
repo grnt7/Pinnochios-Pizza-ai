@@ -1,5 +1,5 @@
 import type { StyleProp, TextStyle, ViewStyle } from "react-native";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Platform, Pressable, StyleSheet, Text } from "react-native";
 
 import { palette, radii } from "@/theme";
 
@@ -30,7 +30,11 @@ export function CategoryChip({
         style,
       ]}
     >
-      <Text style={[styles.text, selected && styles.textSelected, textStyle]}>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        style={[styles.text, selected && styles.textSelected, textStyle]}
+      >
         {label}
       </Text>
     </Pressable>
@@ -39,12 +43,18 @@ export function CategoryChip({
 
 const styles = StyleSheet.create({
   base: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
     paddingHorizontal: 18,
-    paddingVertical: 10,
+    minHeight: 36,
+    paddingVertical: 8,
     borderRadius: radii.pill,
     backgroundColor: palette.card,
     borderWidth: 1,
     borderColor: palette.borderStrong,
+    overflow: "hidden",
   },
   selected: {
     backgroundColor: palette.primary,
@@ -55,6 +65,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 14,
     color: palette.text,
+    textAlign: "center",
+    lineHeight: 18,
+    ...(Platform.OS === "android"
+      ? {
+          includeFontPadding: false as const,
+          textAlignVertical: "center" as const,
+        }
+      : {}),
   },
   textSelected: { color: "#fff" },
 });
