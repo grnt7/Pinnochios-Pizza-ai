@@ -1,15 +1,21 @@
 /**
- * Brand tokens aligned with delivery mockups (soft coral primary, airy grays).
+ * Brand tokens — red header band + cream body (delivery mock).
  */
 export const palette = {
   primary: "#E55B5B",
   primaryDark: "#cf4f4f",
   primaryMuted: "#FDECEC",
+  /** Deep red hero / tab active pill */
+  headerRed: "#C62828",
+  /** Page background below red header */
+  cream: "#FAF8F5",
+  chipInactive: "#ECECEC",
+  chipInactiveText: "#5C5C5C",
   text: "#1a1a1a",
   textSecondary: "#737373",
   border: "#f0f0f0",
   borderStrong: "#e5e5e5",
-  background: "#F7F8FA",
+  background: "#FAF8F5",
   card: "#ffffff",
   overlay: "rgba(0,0,0,0.35)",
 };
@@ -30,7 +36,7 @@ export const shadows = {
     elevation: 3,
   },
   fab: {
-    shadowColor: "#E55B5B",
+    shadowColor: palette.headerRed,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,

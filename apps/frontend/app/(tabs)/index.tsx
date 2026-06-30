@@ -8,7 +8,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { MenuSearchFilterModal } from "@/components/menu-search-filter-modal";
 import {
@@ -18,11 +17,10 @@ import {
   type MenuSearchFiltersState,
 } from "@/components/menu-search-filters";
 import LoadingScreen from "@/components/loading-screen";
-import { BrandHeader } from "@/components/ui/brand-header";
 import { CategoryChip } from "@/components/ui/category-chip";
+import { HomeRedHeader } from "@/components/ui/home-red-header";
 import type { PizzaListItem } from "@/components/ui/pizza-card";
 import { PizzaCard } from "@/components/ui/pizza-card";
-import { SearchBar } from "@/components/ui/search-bar";
 import { api } from "@/lib/convex-api";
 import { palette } from "@/theme";
 
@@ -126,25 +124,22 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.screen}>
-        <View style={styles.header}>
-          <BrandHeader />
-          <SearchBar
-            value={search}
-            onChangeText={setSearch}
-            onPressFilter={() => setFilterModalOpen(true)}
-            filterActive={menuSearchFiltersAreActive(menuFilters)}
-          />
-        </View>
+    <View style={styles.screen}>
+      <HomeRedHeader
+        search={search}
+        onChangeSearch={setSearch}
+        onPressFilter={() => setFilterModalOpen(true)}
+        filterActive={menuSearchFiltersAreActive(menuFilters)}
+      />
 
-        <MenuSearchFilterModal
-          visible={filterModalOpen}
-          value={menuFilters}
-          onClose={() => setFilterModalOpen(false)}
-          onApply={setMenuFilters}
-        />
+      <MenuSearchFilterModal
+        visible={filterModalOpen}
+        value={menuFilters}
+        onClose={() => setFilterModalOpen(false)}
+        onApply={setMenuFilters}
+      />
 
+      <View style={styles.body}>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -195,27 +190,27 @@ export default function HomeScreen() {
           )}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: palette.background },
-  screen: { flex: 1, backgroundColor: palette.background },
-  header: {
-    paddingHorizontal: 16,
-    paddingBottom: 8,
+  screen: { flex: 1, backgroundColor: palette.cream },
+  body: {
+    flex: 1,
+    backgroundColor: palette.cream,
   },
-  /** Cross-axis aligns chips when row has a bounded height (web + RN). */
-  chipsRow: { maxHeight: 56 },
+  chipsRow: { maxHeight: 56, flexGrow: 0, marginBottom: 4 },
   chipsInner: {
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingTop: 22,
+    paddingBottom: 16,
     gap: 10,
   },
   grid: {
     paddingHorizontal: 14,
+    paddingTop: 10,
     paddingBottom: 28,
     gap: 14,
     flexGrow: 1,

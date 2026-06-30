@@ -3,6 +3,7 @@ import { Redirect, Tabs } from "expo-router";
 import { useConvexAuth } from "convex/react";
 
 import LoadingScreen from "@/components/loading-screen";
+import { TabBarIcon } from "@/components/ui/tab-bar-icon";
 import { useCart } from "@/components/cart-context";
 import { palette } from "@/theme";
 
@@ -20,40 +21,41 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: palette.primary,
+        tabBarActiveTintColor: palette.headerRed,
         tabBarInactiveTintColor: "#a8a8a8",
         tabBarStyle: {
           borderTopWidth: 0,
-          elevation: 8,
-          shadowOpacity: 0.06,
+          elevation: 12,
+          shadowOpacity: 0.08,
+          shadowOffset: { width: 0, height: -2 },
           backgroundColor: "#fff",
-          height: 62,
-          paddingBottom: 8,
+          height: 68,
+          paddingBottom: 10,
+          paddingTop: 6,
         },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
-        headerTitleStyle: { fontWeight: "700", color: palette.text },
-        headerStyle: { backgroundColor: palette.background },
-        headerShadowVisible: false,
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600", marginTop: 2 },
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          headerTitle: "",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <TabBarIcon
+              name="home-outline"
+              focusedName="home"
+              focused={focused}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="favorites"
         options={{
-          title: "Favorites",
-          headerTitle: "Saved",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="heart-outline" color={color} size={size} />
-          ),
+          href: null,
         }}
       />
       <Tabs.Screen
@@ -66,8 +68,14 @@ export default function TabsLayout() {
                 ? "99+"
                 : itemCount
               : undefined,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cart-outline" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <TabBarIcon
+              name="cart-outline"
+              focusedName="cart"
+              focused={focused}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -75,40 +83,35 @@ export default function TabsLayout() {
         name="orders"
         options={{
           title: "Orders",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="receipt-outline" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <TabBarIcon
+              name="receipt-outline"
+              focusedName="receipt"
+              focused={focused}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          headerTitle: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" color={color} size={size} />
-          ),
+          href: null,
         }}
       />
       <Tabs.Screen
         name="pizza/[id]"
         options={{
           href: null,
-          headerShown: true,
-          title: "",
-          headerTintColor: palette.text,
-          headerStyle: { backgroundColor: palette.background },
+          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="restaurant-select"
         options={{
           href: null,
-          headerShown: true,
-          title: "",
-          headerTintColor: palette.text,
-          headerStyle: { backgroundColor: palette.background },
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -122,10 +125,7 @@ export default function TabsLayout() {
         name="order/[id]"
         options={{
           href: null,
-          headerShown: true,
-          title: "Order",
-          headerTintColor: palette.text,
-          headerStyle: { backgroundColor: palette.background },
+          headerShown: false,
         }}
       />
     </Tabs>

@@ -4,16 +4,18 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { palette, radii } from "@/theme";
 
 export default function CheckoutCancelScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.safe} edges={["bottom"]}>
+    <View style={styles.root}>
+      <ScreenRedHeader title="Checkout" onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.pad}>
         <Text style={styles.title}>Checkout canceled</Text>
         <Text style={styles.body}>
@@ -34,12 +36,12 @@ export default function CheckoutCancelScreen() {
           <Text style={styles.ghostText}>View cart</Text>
         </Pressable>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
   pad: {
     padding: 24,
     gap: 16,
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
   primary: {
     marginTop: 8,
     alignItems: "center",
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
   },
@@ -65,5 +67,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
   },
-  ghostText: { fontWeight: "700", color: palette.primary, fontSize: 16 },
+  ghostText: { fontWeight: "700", color: palette.headerRed, fontSize: 16 },
 });

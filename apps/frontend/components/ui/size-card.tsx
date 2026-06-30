@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   wrapSelected: {
-    borderColor: palette.primary,
+    borderColor: palette.headerRed,
     backgroundColor: palette.primaryMuted,
   },
   radio: {
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  radioSelected: { borderColor: palette.primary },
+  radioSelected: { borderColor: palette.headerRed },
   radioInner: {
     width: 9,
     height: 9,
     borderRadius: 4.5,
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
   },
   dim: { fontSize: 12, color: palette.textSecondary, fontWeight: "600" },
   price: { fontSize: 15, fontWeight: "800", color: palette.text },

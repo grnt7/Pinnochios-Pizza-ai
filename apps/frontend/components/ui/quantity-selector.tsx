@@ -37,7 +37,7 @@ export function QuantitySelector({
         style={styles.side}
         hitSlop={8}
       >
-        <Ionicons name="add" size={22} color={palette.primary} />
+        <Ionicons name="add" size={22} color={palette.headerRed} />
       </Pressable>
     </View>
   );

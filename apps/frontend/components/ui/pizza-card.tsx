@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import { formatUsd } from "@/lib/format";
+import { pizzaPrepMinutes, pizzaRating } from "@/lib/pizza-display-meta";
 import { palette, radii, shadows } from "@/theme";
 
 export type PizzaListItem = Doc<"pizzas"> & { imageUrl: string | null };
@@ -28,6 +29,9 @@ type Props = {
  */
 export function PizzaCard({ pizza, onPressCard, onPressQuickAdd, style }: Props) {
   const uri = pizza.imageUrl ?? undefined;
+  const seed = pizza.slug || String(pizza._id);
+  const prepMin = pizzaPrepMinutes(seed);
+  const rating = pizzaRating(seed);
 
   return (
     <View style={[styles.card, shadows.card, style]}>
@@ -57,7 +61,20 @@ export function PizzaCard({ pizza, onPressCard, onPressQuickAdd, style }: Props)
       </Pressable>
 
       <View style={styles.footer}>
-        <Text style={styles.meta}>20 min · 4.8</Text>
+        <View style={styles.metaRow}>
+          <View style={styles.metaItem}>
+            <Ionicons
+              name="time-outline"
+              size={14}
+              color={palette.textSecondary}
+            />
+            <Text style={styles.metaText}>{prepMin} min</Text>
+          </View>
+          <View style={styles.metaItem}>
+            <Ionicons name="star" size={13} color={palette.headerRed} />
+            <Text style={styles.metaText}>{rating}</Text>
+          </View>
+        </View>
         {onPressQuickAdd ? (
           <Pressable
             style={styles.addBtn}
@@ -79,13 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: radii.lg,
     backgroundColor: palette.card,
-    borderWidth: 1,
-    borderColor: palette.border,
+    borderWidth: 0,
     padding: 12,
     minHeight: 200,
     maxWidth: "100%",
   },
-  /** Expands so the footer sits at the visual bottom without nesting Pressables. */
   cardPressableArea: {
     flexGrow: 1,
   },
@@ -97,10 +112,10 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   price: {
-    marginTop: 6,
+    marginTop: 4,
     fontWeight: "800",
     fontSize: 16,
-    color: palette.primary,
+    color: palette.headerRed,
   },
   imageWrap: {
     marginTop: 10,
@@ -109,15 +124,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   image: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 118,
+    height: 118,
+    borderRadius: 59,
     backgroundColor: palette.primaryMuted,
   },
   imagePlaceholder: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 118,
+    height: 118,
+    borderRadius: 59,
     backgroundColor: palette.primaryMuted,
     alignItems: "center",
     justifyContent: "center",
@@ -128,12 +143,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 10,
   },
-  meta: { fontSize: 12, color: palette.textSecondary, fontWeight: "500" },
+  metaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    flex: 1,
+  },
+  metaItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  metaText: {
+    fontSize: 12,
+    color: palette.textSecondary,
+    fontWeight: "500",
+  },
   addBtn: {
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     width: 36,
     height: 36,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     ...shadows.fab,

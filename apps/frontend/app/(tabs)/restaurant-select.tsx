@@ -14,6 +14,7 @@ import * as Haptics from "expo-haptics";
 import { BottomCtaButton } from "@/components/ui/bottom-cta-button";
 import { QuantitySelector } from "@/components/ui/quantity-selector";
 import { RestaurantCard } from "@/components/ui/restaurant-card";
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import type { MockRestaurant } from "@/lib/mock-restaurants";
 import { useCart } from "@/components/cart-context";
 import { useOrderDraft } from "@/components/order-draft-context";
@@ -62,7 +63,9 @@ export default function RestaurantSelectScreen() {
 
   if (!draft) {
     return (
-      <View style={styles.missing}>
+      <View style={styles.missingRoot}>
+        <ScreenRedHeader title="Pickup & delivery" onBack={() => router.back()} />
+        <View style={styles.missing}>
         <Text style={styles.missingTitle}>Choose a pizza first</Text>
         <Text style={styles.missingSub}>
           Open a pizza from the menu, customize it, then finish setup.
@@ -73,13 +76,17 @@ export default function RestaurantSelectScreen() {
           onPress={() => router.back()}
         />
       </View>
+      </View>
     );
   }
 
   if (store === undefined || ingredients === undefined || !virtualRestaurant) {
     return (
-      <View style={styles.missing}>
-        <Text style={styles.missingTitle}>Loading…</Text>
+      <View style={styles.missingRoot}>
+        <ScreenRedHeader title="Pickup & delivery" onBack={() => router.back()} />
+        <View style={styles.missing}>
+          <Text style={styles.missingTitle}>Loading…</Text>
+        </View>
       </View>
     );
   }
@@ -101,6 +108,7 @@ export default function RestaurantSelectScreen() {
 
   return (
     <View style={styles.root}>
+      <ScreenRedHeader title="Pickup & delivery" onBack={() => router.back()} />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={[
@@ -109,7 +117,6 @@ export default function RestaurantSelectScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Pickup & delivery</Text>
         <Text style={styles.note}>
           You&apos;re ordering from our single Pinnochio&apos;s location.
           Fees and ETA update from the shop settings.
@@ -188,12 +195,10 @@ export default function RestaurantSelectScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
   scroll: { flex: 1 },
   pad: { padding: 18, paddingTop: 12 },
-  title: { fontSize: 24, fontWeight: "800", color: palette.text },
   note: {
-    marginTop: 10,
     marginBottom: 16,
     fontSize: 14,
     color: palette.textSecondary,
@@ -212,9 +217,10 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: palette.borderStrong,
   },
+  missingRoot: { flex: 1, backgroundColor: palette.cream },
   missing: {
     flex: 1,
-    backgroundColor: palette.background,
+    backgroundColor: palette.cream,
     padding: 24,
     justifyContent: "center",
   },

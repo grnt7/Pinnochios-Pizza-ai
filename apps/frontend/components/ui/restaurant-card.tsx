@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   cardSelected: {
-    borderColor: palette.primary,
+    borderColor: palette.headerRed,
     backgroundColor: palette.primaryMuted,
   },
   logo: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  logoText: { fontWeight: "800", fontSize: 20, color: palette.primary },
+  logoText: { fontWeight: "800", fontSize: 20, color: palette.headerRed },
   body: { flex: 1 },
   name: { fontWeight: "800", fontSize: 16, color: palette.text },
   meta: { marginTop: 4, fontSize: 13, color: palette.textSecondary },
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontWeight: "800",
     fontSize: 17,
-    color: palette.primary,
+    color: palette.headerRed,
   },
   rating: {
     fontSize: 14,

@@ -2,7 +2,7 @@ import { useQuery } from "convex/react";
 import type { Id } from "../../../../../backend/convex/_generated/dataModel";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   Alert,
   Pressable,
@@ -17,11 +17,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomCtaButton } from "@/components/ui/bottom-cta-button";
 import { IngredientRow } from "@/components/ui/ingredient-row";
 import { QuantitySelector } from "@/components/ui/quantity-selector";
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { SizeCard } from "@/components/ui/size-card";
 import { useFavorites } from "@/components/favorites-context";
 import { useOrderDraft } from "@/components/order-draft-context";
 import LoadingScreen from "@/components/loading-screen";
 import { formatUsd } from "@/lib/format";
+import { pizzaPrepMinutes, pizzaRating } from "@/lib/pizza-display-meta";
 import { api } from "@/lib/convex-api";
 import {
   SIZE_KEYS,
@@ -31,10 +33,9 @@ import {
 } from "@/lib/pricing";
 import { palette, radii } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 
 export default function PizzaDetailScreen() {
-  const navigation = useNavigation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ id: string }>();
@@ -89,50 +90,6 @@ export default function PizzaDetailScreen() {
 
   const favorite = pizza ? isFavorite(pizza._id) : false;
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTransparent: false,
-      headerShadowVisible: false,
-      headerTitle: "",
-      headerTintColor: palette.text,
-      headerRight: () =>
-        pizza ? (
-          <View style={styles.headerActions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={
-                favorite ? "Remove from favorites" : "Add to favorites"
-              }
-              onPress={() => void toggleFavorite(pizza._id)}
-              hitSlop={10}
-            >
-              <Ionicons
-                name={favorite ? "heart" : "heart-outline"}
-                size={24}
-                color={favorite ? palette.primary : palette.text}
-              />
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Share"
-              onPress={() =>
-                void Share.share({
-                  message: `${pizza.name} — ${pizza.description}`,
-                })
-              }
-              hitSlop={10}
-            >
-              <Ionicons
-                name="share-outline"
-                size={24}
-                color={palette.text}
-              />
-            </Pressable>
-          </View>
-        ) : null,
-    });
-  }, [navigation, pizza, favorite, toggleFavorite]);
-
   useEffect(() => {
     if (pizzaId === null) {
       Alert.alert("Missing pizza", "Go back and pick an item.");
@@ -166,8 +123,44 @@ export default function PizzaDetailScreen() {
 
   const onSize = (sizeKey: SizeKey) => updateDraft({ sizeKey });
 
+  const headerRight = pizza ? (
+    <View style={styles.headerActions}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={
+          favorite ? "Remove from favorites" : "Add to favorites"
+        }
+        onPress={() => void toggleFavorite(pizza._id)}
+        hitSlop={10}
+      >
+        <Ionicons
+          name={favorite ? "heart" : "heart-outline"}
+          size={24}
+          color={favorite ? "#fff" : "rgba(255,255,255,0.85)"}
+        />
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Share"
+        onPress={() =>
+          void Share.share({
+            message: `${pizza.name} — ${pizza.description}`,
+          })
+        }
+        hitSlop={10}
+      >
+        <Ionicons name="share-outline" size={24} color="#fff" />
+      </Pressable>
+    </View>
+  ) : null;
+
   return (
     <View style={styles.root}>
+      <ScreenRedHeader
+        title={pizza.name}
+        onBack={() => router.back()}
+        right={headerRight}
+      />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={[
@@ -190,13 +183,14 @@ export default function PizzaDetailScreen() {
           )}
         </View>
 
-        <Text style={styles.name}>{pizza.name}</Text>
         <View style={styles.metaRow}>
-          <Text style={styles.meta}>★ 4.8</Text>
+          <Ionicons name="star" size={14} color={palette.headerRed} />
+          <Text style={styles.meta}>{pizzaRating(pizza.slug ?? pizza._id)}</Text>
           <Text style={styles.metaDot}>·</Text>
-          <Text style={styles.meta}>65 kcal</Text>
-          <Text style={styles.metaDot}>·</Text>
-          <Text style={styles.meta}>20 min</Text>
+          <Ionicons name="time-outline" size={14} color={palette.textSecondary} />
+          <Text style={styles.meta}>
+            {pizzaPrepMinutes(pizza.slug ?? pizza._id)} min
+          </Text>
         </View>
         <Text style={styles.desc}>{pizza.description}</Text>
 
@@ -290,7 +284,7 @@ export default function PizzaDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
   scroll: { flex: 1 },
   scrollPad: { paddingHorizontal: 18, paddingTop: 8 },
   hero: {
@@ -346,7 +340,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   includedName: { fontWeight: "700", color: palette.text },
-  includedBadge: { fontWeight: "600", color: palette.primary, fontSize: 13 },
+  includedBadge: { fontWeight: "600", color: palette.headerRed, fontSize: 13 },
   footer: {
     position: "absolute",
     left: 0,

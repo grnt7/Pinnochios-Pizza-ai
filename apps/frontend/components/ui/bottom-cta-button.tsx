@@ -28,7 +28,7 @@ export function BottomCtaButton({ label, style, ...rest }: Props) {
 const styles = StyleSheet.create({
   btn: {
     flex: 1,
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
     alignItems: "center",

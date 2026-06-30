@@ -14,12 +14,12 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
   CheckoutNativeCardPay,
   type CheckoutConvexCartPayload,
 } from "@/components/checkout-native-card-pay";
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { useCart } from "@/components/cart-context";
 import { formatUsd } from "@/lib/format";
 import { api } from "@/lib/convex-api";
@@ -89,9 +89,9 @@ export default function CheckoutScreen() {
 
   if (lines.length === 0) {
     return (
-      <SafeAreaView style={styles.safe} edges={["bottom"]}>
+      <View style={styles.root}>
+        <ScreenRedHeader title="Checkout" onBack={() => router.back()} />
         <ScrollView contentContainerStyle={styles.emptyPad}>
-          <Text style={styles.title}>Checkout</Text>
           <Text style={styles.emptySub}>
             Your cart is empty. Add pizzas from the menu, then review here before
             you place your order.
@@ -111,7 +111,7 @@ export default function CheckoutScreen() {
             <Text style={styles.ghostText}>View cart</Text>
           </Pressable>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -159,9 +159,9 @@ export default function CheckoutScreen() {
   const manualCanTap = canSubmitBase && !nativeManualBusy && !submittingStripe;
 
   return (
-    <SafeAreaView style={styles.safe} edges={["bottom"]}>
+    <View style={styles.root}>
+      <ScreenRedHeader title="Checkout" onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.pad}>
-        <Text style={styles.title}>Checkout</Text>
         <Text style={styles.sub}>
           {Platform.OS === "web"
             ? "Secure payment with Stripe Checkout in your browser."
@@ -297,12 +297,12 @@ export default function CheckoutScreen() {
           </>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
   pad: { padding: 20, gap: 6, paddingBottom: 36 },
   emptyPad: {
     padding: 24,
@@ -354,14 +354,14 @@ const styles = StyleSheet.create({
     borderColor: palette.borderStrong,
   },
   summaryLabel: { fontWeight: "700", color: palette.text },
-  summaryAmt: { fontWeight: "900", fontSize: 22, color: palette.primary },
+  summaryAmt: { fontWeight: "900", fontSize: 22, color: palette.headerRed },
   primary: {
     marginTop: 16,
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
   },
@@ -373,13 +373,13 @@ const styles = StyleSheet.create({
   },
   secondary: {
     alignItems: "center",
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
   },
   secondaryText: { color: "#fff", fontWeight: "800", fontSize: 17 },
   ghostBtn: { alignItems: "center", paddingVertical: 12 },
-  ghostText: { fontWeight: "700", color: palette.primary, fontSize: 16 },
+  ghostText: { fontWeight: "700", color: palette.headerRed, fontSize: 16 },
   warn: {
     marginTop: 10,
     fontSize: 13,

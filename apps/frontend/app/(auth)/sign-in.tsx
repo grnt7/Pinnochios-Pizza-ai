@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import LoadingScreen from "@/components/loading-screen";
+import { palette, radii } from "@/theme";
 
 function formatClerkError(err: unknown): string | null {
   if (err == null) return null;
@@ -391,7 +392,7 @@ export default function SignInScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#fff" },
+  safe: { flex: 1, backgroundColor: palette.cream },
   keyboard: { flex: 1, padding: 24, justifyContent: "center", gap: 12 },
   title: {
     fontSize: 26,
@@ -416,7 +417,7 @@ const styles = StyleSheet.create({
   error: { color: "#b91c1c", marginTop: -4 },
   cta: {
     marginTop: 8,
-    backgroundColor: "#b91c1c",
+    backgroundColor: palette.headerRed,
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
@@ -439,7 +440,7 @@ const styles = StyleSheet.create({
   muted: { color: "#737373", fontSize: 15 },
   link: {
     fontSize: 15,
-    color: "#b91c1c",
+    color: palette.headerRed,
     fontWeight: "700",
   },
 });

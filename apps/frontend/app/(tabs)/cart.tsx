@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { useCart } from "@/components/cart-context";
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { formatUsd } from "@/lib/format";
 import { palette, radii, shadows } from "@/theme";
 
@@ -29,18 +30,22 @@ export default function CartScreen() {
   }
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.pad}>
+    <View style={styles.root}>
+      <ScreenRedHeader
+        title="Cart"
+        right={
+          lines.length > 0 ? (
+            <Pressable accessibilityRole="button" onPress={clearCart}>
+              <Text style={styles.clearHeader}>Clear</Text>
+            </Pressable>
+          ) : null
+        }
+      />
+      <ScrollView style={styles.screen} contentContainerStyle={styles.pad}>
       {lines.length === 0 ? (
         <Text style={styles.empty}>Your cart is empty.</Text>
       ) : (
         <>
-          <View style={styles.headRow}>
-            <Text style={styles.bigTitle}>Your order</Text>
-            <Pressable accessibilityRole="button" onPress={clearCart}>
-              <Text style={styles.clear}>Clear</Text>
-            </Pressable>
-          </View>
-
           {lines.map((l) => {
             const deliveryNote =
               l.deliveryFeeCents > 0
@@ -113,26 +118,21 @@ export default function CartScreen() {
           </Pressable>
         </>
       )}
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
+  screen: { flex: 1, backgroundColor: palette.cream },
   pad: { padding: 18, paddingBottom: 40 },
+  clearHeader: { fontSize: 15, fontWeight: "700", color: "#fff" },
   empty: {
     color: palette.textSecondary,
     textAlign: "center",
     marginTop: 48,
     fontSize: 16,
-  },
-  bigTitle: { fontSize: 22, fontWeight: "800", color: palette.text },
-  clear: { fontSize: 15, fontWeight: "600", color: palette.primary },
-  headRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
   },
   row: {
     flexDirection: "row",
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   totalLabel: { fontWeight: "600", color: palette.textSecondary },
   totalValue: { fontWeight: "800", fontSize: 18, color: palette.text },
   checkout: {
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
     alignItems: "center",

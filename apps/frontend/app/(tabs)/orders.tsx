@@ -11,9 +11,10 @@ import {
   View,
 } from "react-native";
 
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { formatUsd } from "@/lib/format";
 import { api } from "@/lib/convex-api";
-import { palette, radii } from "@/theme";
+import { palette, radii, shadows } from "@/theme";
 
 function statusChip(status: Doc<"orders">["status"]): string {
   switch (status) {
@@ -35,84 +36,86 @@ export default function OrdersScreen() {
   const mine = useQuery(api.orders.listMine);
 
   return (
-    <View style={styles.wrap}>
-      <Text style={styles.head}>My orders</Text>
-      {mine === undefined ? (
-        <ActivityIndicator style={{ marginTop: 48 }} />
-      ) : mine.length === 0 ? (
-        <>
-          <Ionicons name="receipt-outline" size={72} color={palette.textSecondary} />
-          <Text style={styles.emptyTitle}>No orders yet</Text>
-          <Text style={styles.emptySub}>
-            Orders update live — they&apos;ll show up here as soon as you place
-            one.
-          </Text>
-        </>
-      ) : (
-        <FlatList
-          style={{ flex: 1 }}
-          contentContainerStyle={styles.list}
-          data={mine}
-          keyExtractor={(item: Doc<"orders">) => item._id}
-          renderItem={({ item }: { item: Doc<"orders"> }) => (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`Open order ${item._id}`}
-              onPress={() =>
-                router.push({
-                  pathname: "/(tabs)/order/[id]",
-                  params: { id: item._id },
-                })
-              }
-              style={({ pressed }) => [styles.card, pressed && { opacity: 0.95 }]}
-            >
-              <View style={styles.rowTop}>
-                <Text style={styles.badge}>{statusChip(item.status)}</Text>
-                <Text style={styles.total}>{formatUsd(item.totalCents)}</Text>
-              </View>
-              <Text style={styles.ids}>
-                {new Date(item.createdAt).toLocaleString(undefined, {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                })}
-              </Text>
-              <Text style={styles.preview} numberOfLines={2}>
-                {item.lineItems
-                  .map((l: Doc<"orders">["lineItems"][number]) =>
-                    `${l.quantity}× ${l.pizzaNameSnapshot}`,
-                  )
-                  .join(", ")}
-              </Text>
-            </Pressable>
-          )}
-        />
-      )}
+    <View style={styles.root}>
+      <ScreenRedHeader title="Orders" />
+      <View style={styles.body}>
+        {mine === undefined ? (
+          <ActivityIndicator style={styles.loader} color={palette.headerRed} />
+        ) : mine.length === 0 ? (
+          <View style={styles.emptyWrap}>
+            <Ionicons
+              name="receipt-outline"
+              size={72}
+              color={palette.textSecondary}
+            />
+            <Text style={styles.emptyTitle}>No orders yet</Text>
+            <Text style={styles.emptySub}>
+              Orders update live — they&apos;ll show up here as soon as you place
+              one.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.list}
+            data={mine}
+            keyExtractor={(item: Doc<"orders">) => item._id}
+            renderItem={({ item }: { item: Doc<"orders"> }) => (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Open order ${item._id}`}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(tabs)/order/[id]",
+                    params: { id: item._id },
+                  })
+                }
+                style={({ pressed }) => [
+                  styles.card,
+                  shadows.card,
+                  pressed && { opacity: 0.95 },
+                ]}
+              >
+                <View style={styles.rowTop}>
+                  <Text style={styles.badge}>{statusChip(item.status)}</Text>
+                  <Text style={styles.total}>{formatUsd(item.totalCents)}</Text>
+                </View>
+                <Text style={styles.ids}>
+                  {new Date(item.createdAt).toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </Text>
+                <Text style={styles.preview} numberOfLines={2}>
+                  {item.lineItems
+                    .map((l: Doc<"orders">["lineItems"][number]) =>
+                      `${l.quantity}× ${l.pizzaNameSnapshot}`,
+                    )
+                    .join(", ")}
+                </Text>
+              </Pressable>
+            )}
+          />
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
+  root: { flex: 1, backgroundColor: palette.cream },
+  body: {
     flex: 1,
-    backgroundColor: palette.background,
+    backgroundColor: palette.cream,
     paddingHorizontal: 18,
-    paddingTop: 18,
-    paddingBottom: 12,
-    alignItems: "stretch",
   },
-  head: {
-    fontSize: 26,
-    fontWeight: "800",
-    marginBottom: 16,
-    color: palette.text,
-  },
-  list: { gap: 12, paddingBottom: 32 },
+  loader: { marginTop: 48 },
+  list: { gap: 12, paddingTop: 16, paddingBottom: 32 },
   card: {
     backgroundColor: palette.card,
     padding: 16,
     borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: palette.border,
+    borderWidth: 0,
   },
   rowTop: {
     flexDirection: "row",
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     fontWeight: "700",
-    color: palette.primary,
+    color: palette.headerRed,
     fontSize: 15,
   },
   total: { fontWeight: "800", fontSize: 18 },
@@ -131,6 +134,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   preview: { marginTop: 8, color: palette.text, fontSize: 14 },
+  emptyWrap: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 48,
+  },
   emptyTitle: {
     marginTop: 16,
     fontSize: 20,
@@ -141,7 +151,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: "center",
     color: palette.textSecondary,
-    paddingHorizontal: 16,
     lineHeight: 22,
   },
 });

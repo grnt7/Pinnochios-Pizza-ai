@@ -8,10 +8,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import LoadingScreen from "@/components/loading-screen";
+import { ScreenRedHeader } from "@/components/ui/screen-red-header";
 import { useCart } from "@/components/cart-context";
 import { formatUsd } from "@/lib/format";
 import { api } from "@/lib/convex-api";
@@ -49,7 +50,8 @@ export default function CheckoutSuccessScreen() {
 
   if (!checkoutSessionId) {
     return (
-      <SafeAreaView style={styles.safe} edges={["bottom"]}>
+      <View style={styles.root}>
+        <ScreenRedHeader title="Payment" onBack={() => router.back()} />
         <ScrollView contentContainerStyle={styles.pad}>
           <Text style={styles.title}>Missing payment reference</Text>
           <Text style={styles.body}>
@@ -59,7 +61,7 @@ export default function CheckoutSuccessScreen() {
           </Text>
           <PrimaryButton label="Back to checkout" onPress={() => router.replace("/(tabs)/checkout")} />
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -69,7 +71,8 @@ export default function CheckoutSuccessScreen() {
 
   if (order === null) {
     return (
-      <SafeAreaView style={styles.safe} edges={["bottom"]}>
+      <View style={styles.root}>
+        <ScreenRedHeader title="Payment" onBack={() => router.back()} />
         <ScrollView contentContainerStyle={styles.pad}>
           <Text style={styles.title}>Still confirming</Text>
           <Text style={styles.body}>
@@ -89,12 +92,13 @@ export default function CheckoutSuccessScreen() {
             }
           />
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.safe} edges={["bottom"]}>
+    <View style={styles.root}>
+      <ScreenRedHeader title="Payment" onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.pad}>
         <Text style={styles.title}>Payment received</Text>
         <Text style={styles.body}>
@@ -104,7 +108,7 @@ export default function CheckoutSuccessScreen() {
         <PrimaryButton label="View order" onPress={() => goToOrder(order._id)} />
         <GhostButton label="Orders list" onPress={() => router.replace("/(tabs)/orders")} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -141,7 +145,7 @@ function GhostButton({
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: palette.background },
+  root: { flex: 1, backgroundColor: palette.cream },
   pad: {
     padding: 24,
     gap: 16,
@@ -160,12 +164,12 @@ const styles = StyleSheet.create({
     fontFamily: "monospace",
     fontWeight: "600",
     fontSize: 13,
-    color: palette.primary,
+    color: palette.headerRed,
   },
   primary: {
     marginTop: 8,
     alignItems: "center",
-    backgroundColor: palette.primary,
+    backgroundColor: palette.headerRed,
     paddingVertical: 16,
     borderRadius: radii.md,
   },
@@ -174,5 +178,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
   },
-  ghostText: { fontWeight: "700", color: palette.primary, fontSize: 16 },
+  ghostText: { fontWeight: "700", color: palette.headerRed, fontSize: 16 },
 });

@@ -30,7 +30,7 @@ export function IngredientRow({
       style={[styles.row, disabled && styles.rowDisabled]}
     >
       <View style={styles.thumb}>
-        <Ionicons name="leaf-outline" size={22} color={palette.primary} />
+        <Ionicons name="leaf-outline" size={22} color={palette.headerRed} />
       </View>
       <View style={styles.mid}>
         <Text style={styles.name}>{name}</Text>
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: palette.card,
   },
   boxOn: {
-    backgroundColor: palette.primary,
-    borderColor: palette.primary,
+    backgroundColor: palette.headerRed,
+    borderColor: palette.headerRed,
   },
   boxDisabled: { opacity: 0.5 },
 });

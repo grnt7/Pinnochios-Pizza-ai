@@ -1,5 +1,7 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
+import { palette } from "@/theme";
+
 export default function LoadingScreen({
   message,
 }: {
@@ -7,7 +9,7 @@ export default function LoadingScreen({
 }) {
   return (
     <View style={styles.outer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={palette.headerRed} />
       {message ? <Text style={styles.msg}>{message}</Text> : null}
     </View>
   );
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     padding: 24,
-    backgroundColor: "#fff",
+    backgroundColor: palette.cream,
   },
-  msg: { fontSize: 16, color: "#444", textAlign: "center" },
+  msg: { fontSize: 16, color: palette.textSecondary, textAlign: "center" },
 });
