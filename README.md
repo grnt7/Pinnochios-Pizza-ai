@@ -30,7 +30,10 @@ A high-performance, commercially viable web system / cross-platform mobile appli
 | 
 | Backend Dashboard / UI | Core Feature / Flow | System Settings / Database Interaction |  
 | --- | --- |---|
-|<img width="340" height="450" alt="LiveOrdersPage" src="https://github.com/user-attachments/assets/f3c69308-dc08-49f5-b5a2-d8108dba6b1c" />
+|<img width="340" height="450" alt="Backend-Dashboard" src="https://github.com/user-attachments/assets/816fa91f-ede7-477d-9275-5b3613485be6" /> | <img width="340" height="450" alt="Backend-Pizzas" src="https://github.com/user-attachments/assets/1ed867a6-f209-43e3-85ea-cb05f01ce627" /> | <img width="340" height="450" alt="Backend-Ingredients" src="https://github.com/user-attachments/assets/a0fc27ba-17c0-4ac8-b498-84d24657cf52" />
+
+
+
 
  
 
