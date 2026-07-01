@@ -28,7 +28,9 @@ A high-performance, commercially viable web system / cross-platform mobile appli
 
 
 | 
-  
+| Backend Dashboard / UI | Core Feature / Flow | System Settings / Database Interaction |  
+| --- | --- |---|
+|
 
  
 
