@@ -30,7 +30,7 @@ A high-performance, commercially viable web system / cross-platform mobile appli
 | 
 | Backend Dashboard / UI | Core Feature / Flow | System Settings / Database Interaction |  
 | --- | --- |---|
-|
+|<img width="340" height="450" alt="LiveOrdersPage" src="https://github.com/user-attachments/assets/f3c69308-dc08-49f5-b5a2-d8108dba6b1c" />
 
  
 
