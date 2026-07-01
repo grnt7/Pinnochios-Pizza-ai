@@ -1,6 +1,71 @@
 # Pinnochio’s Pizza — Pizza-Ai Monorepo
 
-Customer ordering (**Expo**), kitchen admin (**Next.js**), and shared **`Convex`** backend. Use **one** Convex deployment URL across all clients.
+Customer ordering (**Expo**), kitchen admin (**Next.js**), and shared **Convex** backend. One deployment URL across all clients—real-time menu and orders, Clerk auth, and Stripe checkout.
+
+---
+
+## App previews
+
+### Customer app (Expo)
+
+| Home | Customize & order | Checkout (Stripe) |
+| --- | --- | --- |
+| <img width="237" height="500" alt="Pinnochios homepage" src="./docs/screenshots/home.png" /> | <img width="237" height="500" alt="Pizza selection" src="./docs/screenshots/pizza-selection.png" /> | <img width="237" height="500" alt="Stripe payment" src="./docs/screenshots/checkout-stripe.png" /> |
+
+### Kitchen admin (Next.js)
+
+| Dashboard | Pizzas | Ingredients |
+| --- | --- | --- |
+| <img width="340" height="450" alt="Admin dashboard" src="./docs/screenshots/admin-dashboard.png" /> | <img width="340" height="450" alt="Admin pizzas" src="./docs/screenshots/admin-pizzas.png" /> | <img width="340" height="450" alt="Admin ingredients" src="./docs/screenshots/admin-ingredients.png" /> |
+
+---
+
+## State management
+
+**Convex** holds server state (menu, orders, store settings). Queries subscribe in real time—when the kitchen updates an order in admin, the customer **Orders** tab can refresh without polling. **Clerk** handles sign-in; **`ConvexProviderWithClerk`** passes JWTs to Convex on each request.
+
+**React Context** covers client-only shopping flow in the Expo app:
+
+| Layer | Where | Persistence |
+|-------|--------|-------------|
+| **Cart** | `apps/frontend/components/cart-context.tsx` | In-memory until checkout |
+| **Order draft** | `apps/frontend/components/order-draft-context.tsx` | In-memory while customizing a pizza |
+| **Favorites** | `apps/frontend/components/favorites-context.tsx` | Device **AsyncStorage** |
+| **UI filters / forms** | Screen `useState` (search, category, checkout address) | Session only |
+
+The **admin** app uses Convex `useQuery` / `useMutation` directly—no global client store. There is no Redux, Zustand, or React Query in this repo.
+
+```mermaid
+flowchart TB
+  subgraph client [Client apps]
+    Expo[Expo customer app]
+    Admin[Next.js admin]
+    Cart[Cart Context]
+    Draft[Order Draft Context]
+    Fav[Favorites + AsyncStorage]
+    Local[useState — search, filters, forms]
+  end
+
+  subgraph auth [Authentication]
+    Clerk[Clerk]
+  end
+
+  subgraph convex [Convex backend]
+    API[Queries and mutations]
+    DB[(Database)]
+  end
+
+  Expo --> Cart
+  Expo --> Draft
+  Expo --> Fav
+  Expo --> Local
+  Expo --> API
+  Admin --> API
+  Clerk --> Expo
+  Clerk --> Admin
+  Clerk --> API
+  API --> DB
+```
 
 ---
 
