@@ -22,7 +22,7 @@ A high-performance, commercially viable web system / cross-platform mobile appli
 
 ## 📱 App Previews & Production Layouts
 
-| Main Dashboard / UI | Core Feature / Flow | System Settings / Database Interaction |
+| Main Dashboard / UI | Core Feature / Flow | Stripe Payment / Api Interaction |
 | --- | --- |---|
 | <img  width="237" height="500" alt="Pinnochios-Homepage" src="https://github.com/user-attachments/assets/05c77e22-3c0a-421d-bee6-175b736d3fc0" /> | <img  width="237" height="500" alt="Selection-Page" src="https://github.com/user-attachments/assets/ff645ff0-29db-4d61-9b33-5caa0f178b46" /> | <img  width="237" height="500" alt="Pinnochios-stripe-payment" src="https://github.com/user-attachments/assets/ccd10bd8-6730-48ee-984b-cdab870cd53d" />
 
