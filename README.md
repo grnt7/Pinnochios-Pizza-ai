@@ -10,9 +10,9 @@ Customer ordering (**Expo**), kitchen admin (**Next.js**), and shared **Convex**
 
 | Home | Customize & order | Checkout (Stripe) |
 | --- | --- | --- |
-| <img width="237" height="500"  alt="homepage" src="https://github.com/user-attachments/assets/c4482659-268b-41c8-ab90-4fece8a5248e" />
- | <img width="237" height="500" alt="pizza-selection" src="https://github.com/user-attachments/assets/b967a9c1-934f-423a-8752-dc2b72371182" />
- | <img width="237" height="500" alt="Stripe payment" src="./docs/screenshots/checkout-stripe.png" /> |
+| <img width="237" height="500"  alt="homepage" src="https://github.com/user-attachments/assets/c4482659-268b-41c8-ab90-4fece8a5248e" />| <img width="237" height="500" alt="pizza-selection" src="https://github.com/user-attachments/assets/b967a9c1-934f-423a-8752-dc2b72371182" /> |  <img width="237" height="500" alt="Stripe payment" src="./docs/screenshots/checkout-stripe.png" />|
+ 
+
 
 ### Kitchen admin (Next.js)
 
